@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.1 — 2026-10-10
+
+- Switched live generation to the direct OpenAI Responses API using `OPENAI_API_KEY`.
+- Added `gpt-5-mini` as the default; `OPENAI_MODEL` is an optional override.
+- Updated setup instructions, configuration detection, and provider routing tests.
+
 ## 0.1.0 — 2026-10-09
 
 - Added the Canvas generative UI chatbot in `generative-ui-chatbot/`.

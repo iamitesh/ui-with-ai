@@ -455,8 +455,8 @@ export default function App() {
             </div>
           ))}
           <Alert severity="info" sx={{ mt: 2 }}>
-            Live AI requires AI_GATEWAY_API_KEY and AI_MODEL in the server .env
-            file. Restart after configuration.
+            Live AI requires only OPENAI_API_KEY in the server .env file.
+            OPENAI_MODEL is optional. Restart after configuration.
           </Alert>
         </DialogContent>
       </Dialog>

@@ -1,6 +1,6 @@
 {
   "name": "generative-ui-chatbot",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Catalog-driven generative UI chatbot with Material UI and validated AI output",
   "scripts": {
     "dev": "concurrently -k -n api,web \"node --import tsx --watch server/index.ts\" \"vite\"",
@@ -14,6 +14,7 @@
   "license": "UNLICENSED",
   "type": "module",
   "dependencies": {
+    "@ai-sdk/openai": "^4.0.91",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^9.5.0",

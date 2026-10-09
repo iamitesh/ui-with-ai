@@ -135,22 +135,22 @@ test("blocks unknown UI components, mismatched data, and direct submission butto
   }
 });
 test("live mode reports missing configuration instead of silently using mock data", async () => {
-  const oldKey = process.env.AI_GATEWAY_API_KEY;
-  const oldModel = process.env.AI_MODEL;
-  delete process.env.AI_GATEWAY_API_KEY;
-  delete process.env.AI_MODEL;
+  const oldKey = process.env.OPENAI_API_KEY;
+  const oldModel = process.env.OPENAI_MODEL;
+  delete process.env.OPENAI_API_KEY;
+  delete process.env.OPENAI_MODEL;
   try {
     assert.equal((await post({ mode: "live", message: "sales" })).status, 503);
   } finally {
-    if (oldKey) process.env.AI_GATEWAY_API_KEY = oldKey;
-    if (oldModel) process.env.AI_MODEL = oldModel;
+    if (oldKey) process.env.OPENAI_API_KEY = oldKey;
+    if (oldModel) process.env.OPENAI_MODEL = oldModel;
   }
 });
 test("invalid model output returns a sanitized error and valid output passes", async () => {
-  const oldKey = process.env.AI_GATEWAY_API_KEY;
-  const oldModel = process.env.AI_MODEL;
-  process.env.AI_GATEWAY_API_KEY = "test-only";
-  process.env.AI_MODEL = "test/model";
+  const oldKey = process.env.OPENAI_API_KEY;
+  const oldModel = process.env.OPENAI_MODEL;
+  process.env.OPENAI_API_KEY = "test-only";
+  process.env.OPENAI_MODEL = "test/model";
   let valid = false;
   const local = createApp(async () =>
     valid
@@ -178,9 +178,9 @@ test("invalid model output returns a sanitized error and valid output passes", a
     assert.equal((await good.json()).source, "live");
   } finally {
     await new Promise<void>((resolve) => local.close(() => resolve()));
-    if (oldKey) process.env.AI_GATEWAY_API_KEY = oldKey;
-    else delete process.env.AI_GATEWAY_API_KEY;
-    if (oldModel) process.env.AI_MODEL = oldModel;
-    else delete process.env.AI_MODEL;
+    if (oldKey) process.env.OPENAI_API_KEY = oldKey;
+    else delete process.env.OPENAI_API_KEY;
+    if (oldModel) process.env.OPENAI_MODEL = oldModel;
+    else delete process.env.OPENAI_MODEL;
   }
 });

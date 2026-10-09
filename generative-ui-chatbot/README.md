@@ -1,6 +1,6 @@
 # Canvas — UI in conversation
 
-A React + TypeScript chatbot that renders validated UI descriptions with Material UI and MUI X Charts. Works immediately in deterministic demo mode; optional live generation uses the Vercel AI SDK and AI Gateway.
+A React + TypeScript chatbot that renders validated UI descriptions with Material UI and MUI X Charts. Works immediately in deterministic demo mode; optional live generation uses the AI SDK OpenAI provider with your OpenAI API key.
 
 ![Canvas chatbot welcome screen](./docs/canvas-desktop.png)
 
@@ -33,9 +33,17 @@ All data, prices, selections and submissions are illustrative. No external purch
 cp .env.example .env
 ```
 
-Set `AI_GATEWAY_API_KEY` to your Vercel AI Gateway key and `AI_MODEL` to a current structured-output-capable `provider/model` identifier from https://ai-gateway.vercel.sh/v1/models. Restart the server and select **Live AI** in the header. There is deliberately no hardcoded model default. Keys stay on the server; never use a `VITE_` prefix for secrets.
+Set `OPENAI_API_KEY` to your OpenAI API key. That is the only required credential. Restart the server and select **Live AI** in the header. The default model is `gpt-5-mini`; optionally set `OPENAI_MODEL` to another OpenAI model that supports structured outputs. Use the OpenAI model ID directly, without an `openai/` prefix.
 
-The AI SDK calls `generateText` with `Output.object({ schema })`. The generated result is validated again for semantic consistency, then validated by the browser before rendering. Invalid responses show a retryable error; live mode never silently falls back to fake data. Button actions remain deterministic in both modes. The last 12 text messages are sent as context; previous component JSON is not resent.
+```dotenv
+OPENAI_API_KEY=your_openai_api_key
+# Optional
+OPENAI_MODEL=gpt-5-mini
+```
+
+Requests go directly to `https://api.openai.com/v1/responses` through `@ai-sdk/openai`. No Vercel account or gateway key is required. Keys stay on the server; never use a `VITE_` prefix for secrets.
+
+The AI SDK uses an explicit OpenAI provider and calls `generateText` with `Output.object({ schema })`. The generated result is validated again for semantic consistency, then validated by the browser before rendering. Invalid responses show a retryable error; live mode never silently falls back to fake data. Button actions remain deterministic in both modes. The last 12 text messages are sent as context; previous component JSON is not resent.
 
 ## Architecture
 
@@ -103,7 +111,7 @@ Open http://127.0.0.1:3001. The server serves `dist/` and `/api` together. `tsx`
 - A simple in-memory per-IP limit allows 10 live prompt requests per minute. This is a local example, not a distributed abuse-control system.
 - The server binds to localhost by default. Before public deployment, add authentication, authorization, durable rate limiting, spending limits, HTTPS and a trusted origin policy. Do not expose a paid endpoint merely by changing `HOST`.
 - Request IDs are returned for troubleshooting; failure logs omit prompts, provider errors and credentials.
-- The live provider call requires user credentials and is not exercised by the no-key test suite. Tests inject a generator to verify the live validation/error path.
+- A real OpenAI generation requires your credentials and is not exercised by the no-key test suite. Tests mock the OpenAI HTTP response to verify the direct endpoint, authorization header, default model and model override; API tests also cover validation/error handling.
 
 ## References
 
