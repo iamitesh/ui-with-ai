@@ -1,0 +1,46 @@
+{
+  "name": "generative-ui-chatbot",
+  "version": "0.1.0",
+  "description": "Catalog-driven generative UI chatbot with Material UI and validated AI output",
+  "scripts": {
+    "dev": "concurrently -k -n api,web \"node --import tsx --watch server/index.ts\" \"vite\"",
+    "typecheck": "tsc --noEmit",
+    "build": "npm run typecheck && vite build",
+    "start": "node --import tsx server/index.ts",
+    "test": "node --import tsx --test tests/*.test.ts",
+    "test:e2e": "playwright test",
+    "format": "prettier --write src shared server tests *.ts *.json *.md"
+  },
+  "license": "UNLICENSED",
+  "type": "module",
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^9.5.0",
+    "@mui/material": "^9.5.0",
+    "@mui/x-charts": "^9.15.0",
+    "ai": "^7.0.136",
+    "dotenv": "^18.0.6",
+    "express": "^5.2.1",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.0",
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.6.4",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "concurrently": "^10.0.6",
+    "prettier": "^3.9.9",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.4"
+  },
+  "private": true,
+  "engines": {
+    "node": ">=22.12"
+  }
+}
